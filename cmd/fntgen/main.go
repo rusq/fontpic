@@ -1,3 +1,4 @@
+// Command fntgen is just a sandbox to fuck around.
 package main
 
 import (
