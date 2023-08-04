@@ -10,6 +10,7 @@ import (
 	"os"
 
 	"github.com/rusq/fontpic"
+	"github.com/rusq/fontpic/charset"
 )
 
 var (
@@ -21,7 +22,7 @@ func main() {
 	flag.Parse()
 
 	renderfile()
-	RenderText("Hello from 1989")
+	RenderText(string(charset.CP866.Translate("Привет из 1989")))
 	canvasrender()
 }
 
