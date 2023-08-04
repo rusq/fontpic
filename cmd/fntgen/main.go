@@ -29,7 +29,7 @@ func canvasrender() {
 	c := fontpic.NewCanvas(fontpic.FontDefault)
 	img := c.WithBackground(color.Black).
 		WithForeground(color.White).
-		Render([]byte("I believe everything that has been taught to me\ncan be taught to others if they are willing to learn.\n       -- Rev. Mychael Shane")).
+		RenderText([]byte("Fact of the day:\n\tAt some point in time some things will be\ndifferent from what they are today.")).
 		Image()
 	if err := writePng("canvas.png", img); err != nil {
 		panic(err)

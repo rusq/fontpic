@@ -103,25 +103,26 @@ func toBytes(chars [CharsetSz][]byte) []byte {
 	return data
 }
 
-// FontSample renders a sample of the font.  The font is rendered in a grid of
+// Sample renders a sample of the font.  The font is rendered in a grid of
 // perLine characters.  The sx and sy parameters are space between characters in
 // pixels
 func (f *Font) Sample(perLine int) image.Image {
-	return f.sample(perLine, color.Gray{0xa8}, color.Black, 1, 1)
+	return f.sample(perLine, color.Gray{0xa8}, color.Black, image.Point{1, 1})
 }
 
 func (f *Font) SampleColor(perLine int, fg, bg color.Color) image.Image {
-	return f.sample(perLine, fg, bg, 1, 1)
+	return f.sample(perLine, fg, bg, image.Point{1, 1})
 }
 
-func (f *Font) sample(perLine int, fg, bg color.Color, sx, sy int) image.Image {
+// sample generates a font sample, with perLine characters, fg foreground and bg background colors,
+func (f *Font) sample(perLine int, fg, bg color.Color, spacing image.Point) image.Image {
 	perY := CharsetSz / perLine
-	img := image.NewRGBA(image.Rect(0, 0, f.Width*perLine+(sx*perLine), f.Height*perY+(sy*perY)))
+	img := image.NewRGBA(image.Rect(0, 0, f.Width*perLine+(spacing.X*perLine), f.Height*perY+(spacing.Y*perY)))
 	fill(img, bg)
 	for i := 0; i < len(f.Chars); i++ {
-		x := (i%perLine)*f.Width + sx*(i%perLine)
-		y := (i/perLine)*f.Height + sy*(i/perLine)
-		RenderCharAt(img, x, y, f.Width, f.Height, f.Chars[i], fg, bg)
+		x := (i%perLine)*f.Width + spacing.X*(i%perLine)
+		y := (i/perLine)*f.Height + spacing.Y*(i/perLine)
+		RenderCharAt(img, image.Point{x, y}, f.Width, f.Height, f.Chars[i], fg, bg)
 	}
 	return img
 }
