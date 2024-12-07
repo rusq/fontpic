@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"image"
 	"image/color"
+	"image/draw"
 )
 
 // Canvas is a canvas that can be rendered to.
@@ -35,7 +36,7 @@ type Canvas struct {
 	Font       *Font       // Font to use
 	Spacing    image.Point // Spacing between characters.
 	Scale      image.Point // scaling factor (not used yet)
-	image      *image.RGBA
+	image      draw.Image
 }
 
 // NewCanvas creates the new canvas with the default font.
@@ -126,7 +127,7 @@ func (c *Canvas) WithForeground(fg color.Color) *Canvas {
 	return c
 }
 
-func (c *Canvas) WithImage(img *image.RGBA) *Canvas {
+func (c *Canvas) WithImage(img draw.Image) *Canvas {
 	c.image = img
 	c.Width = img.Bounds().Dx()
 	c.Height = img.Bounds().Dy()
@@ -197,7 +198,7 @@ func (c *Canvas) renderAt(lines [][]byte, at image.Point) *Canvas {
 	return c
 }
 
-func (c *Canvas) Image() *image.RGBA {
+func (c *Canvas) Image() draw.Image {
 	if c.image == nil {
 		c.init(nil)
 	}
