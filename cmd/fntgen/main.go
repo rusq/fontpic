@@ -6,7 +6,6 @@ import (
 	"image"
 	"image/color"
 	"image/png"
-	"io"
 	"os"
 
 	"github.com/rusq/fontpic"
@@ -14,8 +13,9 @@ import (
 )
 
 var (
-	fontfile = flag.String("f", "../../fnt/08x16.fnt", "font file")
-	output   = flag.String("o", "fontpic.png", "output file")
+	fontfile  = flag.String("f", "../../fnt/08x16.fnt", "font file")
+	fontWidth = flag.Int("w", 8, "font width")
+	output    = flag.String("o", "fontpic.png", "output file")
 )
 
 func main() {
@@ -27,7 +27,11 @@ func main() {
 }
 
 func canvasrender() {
-	c := fontpic.NewCanvas(fontpic.FontDefault)
+	font, err := fontpic.LoadFont(*fontfile, *fontWidth)
+	if err != nil {
+		panic(err)
+	}
+	c := fontpic.NewCanvas(font)
 	img := c.WithBackground(color.Black).
 		WithForeground(color.White).
 		RenderText([]byte("Fact of the day:\n\tAt some point in time some things will be\ndifferent from what they are today.")).
@@ -58,7 +62,7 @@ func writePng(filename string, img image.Image) error {
 }
 
 func renderfile() {
-	font, err := LoadFont(*fontfile)
+	font, err := fontpic.LoadFont(*fontfile, *fontWidth)
 	if err != nil {
 		panic(err)
 	}
@@ -69,18 +73,4 @@ func renderFont(font *fontpic.Font, perLine int) {
 	if err := writePng(*output, font.Sample(perLine)); err != nil {
 		panic(err)
 	}
-}
-
-func LoadFont(filename string) (*fontpic.Font, error) {
-	f, err := os.Open(filename)
-	if err != nil {
-		return nil, err
-	}
-	defer f.Close()
-
-	data, err := io.ReadAll(f)
-	if err != nil {
-		return nil, err
-	}
-	return fontpic.ToFont8(data)
 }

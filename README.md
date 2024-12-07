@@ -36,7 +36,10 @@ BSD 3-clause.  See [LICENSE](/LICENSE).
 
 Included fonts are freeware (c) Dmitry Gurtyak.
 
+- fnt/microfnt.fnt -  GPL2+ font by mibi88 (generated from [source][4])
+
 
 [1]: https://en.wikipedia.org/wiki/KeyRus
 [2]: https://github.com/spacerace/romfont
 [3]: https://www.mankier.com/1/psf2inc
+[4]: https://git.planet-casio.com/mibi88/microfont/src/branch/master/microfont.png

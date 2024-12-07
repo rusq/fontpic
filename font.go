@@ -6,6 +6,7 @@ import (
 	"image"
 	"image/color"
 	"io"
+	"os"
 )
 
 const (
@@ -69,6 +70,20 @@ func ToFont(b []byte, width int) (*Font, error) {
 	}, nil
 }
 
+func LoadFont(filename string, width int) (*Font, error) {
+	f, err := os.Open(filename)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+
+	data, err := io.ReadAll(f)
+	if err != nil {
+		return nil, err
+	}
+	return ToFont(data, width)
+}
+
 func (f *Font) WriteTo(w io.Writer) (n int64, err error) {
 	return io.Copy(w, bytes.NewReader(f.Bytes()))
 }
@@ -86,9 +101,18 @@ func ToFontCharset(b []byte, charset string) (*Font, error) {
 	return font, nil
 }
 
+// charStride returns the number of bytes required to store a character of the
+// given width.  The width is in bits.  If width is 0, it is assumed to be 8.
+func charStride(width int) int {
+	if width == 0 {
+		width = chrWidth
+	}
+	return (width + 7) / 8
+}
+
 func toChars(fnt []byte, width int, height int) [CharsetSz][]byte {
 	var chars [CharsetSz][]byte
-	wb := width / 8 // width in bytes, for offsets calculation
+	wb := charStride(width)
 	for i := 0; i < CharsetSz; i++ {
 		chars[i] = fnt[i*wb*height : (i+1)*wb*height]
 	}
