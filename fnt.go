@@ -16,7 +16,7 @@ const (
 	chrWidth  = 8 // character width in bits
 )
 
-type Font struct {
+type FNT struct {
 	Width   int
 	Height  int
 	Charset string
@@ -27,50 +27,64 @@ var (
 	// Embedded fonts are taken from KeyRus by Dmitry Gurtyak. Charset: 866
 	//
 	//go:embed fnt/08x08.fnt
-	kr8x8 []byte
+	fntKr8x8 []byte
 	//go:embed fnt/08x14.fnt
-	kr8x14 []byte
+	fntKr8x14 []byte
 	//go:embed fnt/08x16.fnt
-	kr8x16 []byte
+	fntKr8x16 []byte
+	//go:embed fnt/microfont.fnt
+	fntMicrofont []byte
+	//go:embed fnt/microfont_bold.fnt
+	fntMicrofontBold []byte
+	//go:embed fnt/microfont_italic.fnt
+	fntMicrofontItalic []byte
+	//go:embed fnt/milifont.fnt
+	fntMilifont []byte
+	//go:embed fnt/font.fnt
+	fntStupidsimplefont []byte
+	//go:embed fnt/font_bold.fnt
+	fntStupidsimplefontBold []byte
+	//go:embed fnt/font_italic.fnt
+	fntStupidsimplefontItalic []byte
 )
 
 var (
 	// FontDefault is the default font.
-	Font8x8     = Must(ToFontCharset(kr8x8, "866"))
-	Font8x14    = Must(ToFontCharset(kr8x14, "866"))
-	Font8x16    = Must(ToFontCharset(kr8x16, "866"))
-	FontDefault = Font8x16
+	Fnt8x8     = Must(ToFntCharset(fntKr8x8, "866"))
+	Fnt8x14    = Must(ToFntCharset(fntKr8x14, "866"))
+	Fnt8x16    = Must(ToFntCharset(fntKr8x16, "866"))
+	FntDefault = Fnt8x16
 )
 
-func Must(font *Font, err error) *Font {
+func Must(fnt *FNT, err error) *FNT {
 	if err != nil {
 		panic(err)
 	}
-	return font
+	return fnt
 }
 
-// ToFont8 is a shortcut for calling ToFont(b, 8).
+// ToFnt8 is a shortcut for calling ToFont(b, 8).
 //
 // Usual slice sizes for 8-bit wide fonts:
 //  1. 8x8 font: 2048 bytes (1x8bytes x 256)
 //  2. 8x14 font: 3584 bytes (1x14bytes x 256)
 //  3. 8x16 font: 4096 bytes (1x16bytes x 256)
-func ToFont8(b []byte) (*Font, error) {
-	return ToFont(b, chrWidth)
+func ToFnt8(b []byte) (*FNT, error) {
+	return ToFnt(b, chrWidth)
 }
 
-// ToFont8 converts byte data to a Font structure.  It detects the font height
+// ToFnt converts byte data to a Font structure.  It detects the font height
 // based on the slice size.
-func ToFont(b []byte, width int) (*Font, error) {
+func ToFnt(b []byte, width int) (*FNT, error) {
 	height := len(b) / CharsetSz
-	return &Font{
+	return &FNT{
 		Width:  width,
 		Height: height,
 		Chars:  toChars(b, width, height),
 	}, nil
 }
 
-func LoadFont(filename string, width int) (*Font, error) {
+func LoadFnt(filename string, width int) (*FNT, error) {
 	f, err := os.Open(filename)
 	if err != nil {
 		return nil, err
@@ -81,19 +95,19 @@ func LoadFont(filename string, width int) (*Font, error) {
 	if err != nil {
 		return nil, err
 	}
-	return ToFont(data, width)
+	return ToFnt(data, width)
 }
 
-func (f *Font) WriteTo(w io.Writer) (n int64, err error) {
+func (f *FNT) WriteTo(w io.Writer) (n int64, err error) {
 	return io.Copy(w, bytes.NewReader(f.Bytes()))
 }
 
-func (f *Font) Bytes() []byte {
+func (f *FNT) Bytes() []byte {
 	return toBytes(f.Chars)
 }
 
-func ToFontCharset(b []byte, charset string) (*Font, error) {
-	font, err := ToFont8(b)
+func ToFntCharset(b []byte, charset string) (*FNT, error) {
+	font, err := ToFnt8(b)
 	if err != nil {
 		return nil, err
 	}
@@ -130,16 +144,17 @@ func toBytes(chars [CharsetSz][]byte) []byte {
 // Sample renders a sample of the font.  The font is rendered in a grid of
 // perLine characters.  The sx and sy parameters are space between characters in
 // pixels
-func (f *Font) Sample(perLine int) image.Image {
+func (f *FNT) Sample(perLine int) image.Image {
 	return f.sample(perLine, color.Gray{0xa8}, color.Black, image.Point{1, 1})
 }
 
-func (f *Font) SampleColor(perLine int, fg, bg color.Color) image.Image {
+func (f *FNT) SampleColor(perLine int, fg, bg color.Color) image.Image {
 	return f.sample(perLine, fg, bg, image.Point{1, 1})
 }
 
-// sample generates a font sample, with perLine characters, fg foreground and bg background colors,
-func (f *Font) sample(perLine int, fg, bg color.Color, spacing image.Point) image.Image {
+// sample generates a font sample, with perLine characters, fg foreground and
+// bg background colors,
+func (f *FNT) sample(perLine int, fg, bg color.Color, spacing image.Point) image.Image {
 	perY := CharsetSz / perLine
 	img := image.NewRGBA(image.Rect(0, 0, f.Width*perLine+(spacing.X*perLine), f.Height*perY+(spacing.Y*perY)))
 	fill(img, bg)

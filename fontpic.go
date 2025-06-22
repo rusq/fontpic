@@ -22,7 +22,7 @@ func RenderCharAt(img draw.Image, at image.Point, width, height int, bits []byte
 	}
 }
 
-func (f *Font) TextAt(img draw.Image, x, y int, text []byte, fg, bg color.Color) {
+func (f *FNT) TextAt(img draw.Image, x, y int, text []byte, fg, bg color.Color) {
 	NewCanvas(f).WithBackground(bg).WithForeground(fg).WithImage(img).RenderTextAt(text, image.Point{x, y})
 	// for i := 0; i < len(text); i++ {
 	// 	RenderCharAt(img, x+(i*f.Width), y, f.Width, f.Height, f.Chars[text[i]], fg, bg)

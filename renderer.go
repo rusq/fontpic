@@ -33,14 +33,14 @@ type Canvas struct {
 	Height     int
 	Background color.Color
 	Foreground color.Color // Color to use for the font
-	Font       *Font       // Font to use
+	Font       *FNT        // Font to use
 	Spacing    image.Point // Spacing between characters.
 	Scale      image.Point // scaling factor (not used yet)
 	image      draw.Image
 }
 
 // NewCanvas creates the new canvas with the default font.
-func NewCanvas(defavlt *Font) *Canvas {
+func NewCanvas(defavlt *FNT) *Canvas {
 	return &Canvas{
 		Font:       defavlt,
 		Spacing:    image.Point{0, 0},
@@ -50,7 +50,7 @@ func NewCanvas(defavlt *Font) *Canvas {
 	}
 }
 
-func (c *Canvas) WithFont(font *Font) *Canvas {
+func (c *Canvas) WithFont(font *FNT) *Canvas {
 	c.Font = font
 	return c
 }
@@ -81,7 +81,7 @@ func (c *Canvas) ensure() {
 		c.Spacing.Y = 0
 	}
 	if c.Font == nil {
-		c.Font = FontDefault
+		c.Font = FntDefault
 	}
 	if c.Foreground == nil {
 		c.Foreground = color.Gray{0xa8}

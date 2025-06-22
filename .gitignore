@@ -1,4 +1,6 @@
 keyrus/
 *~
 .DS_Store
-*.png
+/*.png
+/*.fnt
+/cmd/fntgen/*.png
