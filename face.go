@@ -82,6 +82,36 @@ var (
 		Ranges: basicfont.Face7x13.Ranges,
 	}
 
+	MicrofontBold = &basicfont.Face{
+		Advance: 5,
+		Width:   8,
+		Height:  5,
+		Ascent:  4,
+		Descent: 1,
+		Left:    -4,
+		Mask: &image.Alpha{
+			Pix:    bytes2pixels(microfontBold[0x20*5:]),
+			Stride: 8,
+			Rect:   image.Rectangle{Max: image.Point{8, 96 * 8}},
+		},
+		Ranges: basicfont.Face7x13.Ranges,
+	}
+
+	MicrofontItalic = &basicfont.Face{
+		Advance: 5,
+		Width:   8,
+		Height:  5,
+		Ascent:  4,
+		Descent: 1,
+		Left:    -4,
+		Mask: &image.Alpha{
+			Pix:    bytes2pixels(microfontItalic[0x20*5:]),
+			Stride: 8,
+			Rect:   image.Rectangle{Max: image.Point{8, 96 * 8}},
+		},
+		Ranges: basicfont.Face7x13.Ranges,
+	}
+
 	Milifont = &basicfont.Face{
 		Advance: 4,
 		Width:   8,
