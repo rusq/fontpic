@@ -1,0 +1,30 @@
+package fontpic
+
+import (
+	"reflect"
+	"testing"
+)
+
+func Test_bits2byte(t *testing.T) {
+	type args struct {
+		b byte
+	}
+	tests := []struct {
+		name       string
+		args       args
+		wantStride [8]byte
+	}{
+		{"all 1s", args{0xff}, [8]byte{0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff}},
+		{"fst 1 ", args{0x80}, [8]byte{0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}},
+		{"lst 1 ", args{0x01}, [8]byte{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff}},
+		{"intrlv", args{0x55}, [8]byte{0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff}},
+		{"all 1s", args{0xaa}, [8]byte{0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotStride := bits2bytes(tt.args.b); !reflect.DeepEqual(gotStride, tt.wantStride) {
+				t.Errorf("bits2byte() = %v, want %v", gotStride, tt.wantStride)
+			}
+		})
+	}
+}

@@ -32,6 +32,8 @@ var (
 	kr8x14 []byte
 	//go:embed fnt/08x16.fnt
 	kr8x16 []byte
+	//go:embed fnt/microfont.fnt
+	microfont []byte
 )
 
 var (
@@ -59,7 +61,7 @@ func ToFont8(b []byte) (*Font, error) {
 	return ToFont(b, chrWidth)
 }
 
-// ToFont8 converts byte data to a Font structure.  It detects the font height
+// ToFont converts byte data to a Font structure.  It detects the font height
 // based on the slice size.
 func ToFont(b []byte, width int) (*Font, error) {
 	height := len(b) / CharsetSz
