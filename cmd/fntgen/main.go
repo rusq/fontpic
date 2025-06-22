@@ -27,7 +27,7 @@ func main() {
 }
 
 func canvasrender() {
-	font, err := fontpic.LoadFont(*fontfile, *fontWidth)
+	font, err := fontpic.LoadFnt(*fontfile, *fontWidth)
 	if err != nil {
 		panic(err)
 	}
@@ -42,8 +42,8 @@ func canvasrender() {
 }
 
 func RenderText(text string) {
-	img := image.NewRGBA(image.Rect(0, 0, len(text)*fontpic.FontDefault.Width, fontpic.FontDefault.Height))
-	fontpic.FontDefault.TextAt(img, 0, 0, []byte(text), color.White, color.Black)
+	img := image.NewRGBA(image.Rect(0, 0, len(text)*fontpic.FntDefault.Width, fontpic.FntDefault.Height))
+	fontpic.FntDefault.TextAt(img, 0, 0, []byte(text), color.White, color.Black)
 	if err := writePng("text.png", img); err != nil {
 		panic(err)
 	}
@@ -62,14 +62,14 @@ func writePng(filename string, img image.Image) error {
 }
 
 func renderfile() {
-	font, err := fontpic.LoadFont(*fontfile, *fontWidth)
+	font, err := fontpic.LoadFnt(*fontfile, *fontWidth)
 	if err != nil {
 		panic(err)
 	}
 	renderFont(font, 16)
 }
 
-func renderFont(font *fontpic.Font, perLine int) {
+func renderFont(font *fontpic.FNT, perLine int) {
 	if err := writePng(*output, font.Sample(perLine)); err != nil {
 		panic(err)
 	}
