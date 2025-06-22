@@ -12,15 +12,18 @@ var (
 	imgfontsFS embed.FS
 
 	allImageFonts = []*ImageFont{
-		&MicroFont,
-		&MicroFontBold,
-		&MicroFontItalic,
-		&MiliFont,
+		&IFMicrofont,
+		&IFMicrofontBold,
+		&IFMicrofontItalic,
+		&IFMiliFont,
+		&IFStupidSimple,
+		&IFStupidSimpleBold,
+		&IFStupidSimpleItalic,
 	}
 )
 
 var (
-	// MicroFont GPL2+ font by mibi88
+	// These fonts are GPL2+ font by mibi88
 	// https://git.planet-casio.com/mibi88/microfont/src/branch/master/microfont.png
 	//
 	//	microfont.png:
@@ -31,7 +34,7 @@ var (
 	//	  grid.size: 4x4
 	//	  grid.padding: 1
 	//	  proportional: false
-	MicroFont = ImageFont{
+	IFMicrofont = ImageFont{
 		Name:        "microfont",
 		Width:       4,
 		GridSize:    image.Pt(4, 4),
@@ -41,7 +44,7 @@ var (
 		CharEnd:     127,
 	}
 
-	MicroFontBold = ImageFont{
+	IFMicrofontBold = ImageFont{
 		Name:        "microfont_bold",
 		Width:       4,
 		GridSize:    image.Pt(4, 4),
@@ -50,7 +53,7 @@ var (
 		Transparent: color.Transparent,
 		CharEnd:     127,
 	}
-	MicroFontItalic = ImageFont{
+	IFMicrofontItalic = ImageFont{
 		Name:        "microfont_italic",
 		Width:       4,
 		GridSize:    image.Pt(4, 4),
@@ -59,7 +62,7 @@ var (
 		Transparent: color.Transparent,
 		CharEnd:     127,
 	}
-	// MiliFont GPL2+ font by mibi88
+
 	// https://git.planet-casio.com/mibi88/microfont/src/branch/master/milifont.png
 	// milifont.png:
 	//	name: milifont
@@ -69,10 +72,38 @@ var (
 	//	grid.size: 3x5
 	//	grid.padding: 1
 	//	proportional: false
-	MiliFont = ImageFont{
+	IFMiliFont = ImageFont{
 		Name:        "milifont",
 		Width:       3,
 		GridSize:    image.Pt(3, 5),
+		GridPadding: 1,
+		CharStart:   32,
+		Transparent: color.Transparent,
+		CharEnd:     127,
+	}
+
+	IFStupidSimple = ImageFont{
+		Name:        "font",
+		Width:       5,
+		GridSize:    image.Pt(5, 5),
+		GridPadding: 1,
+		CharStart:   32,
+		Transparent: color.Transparent,
+		CharEnd:     127,
+	}
+	IFStupidSimpleBold = ImageFont{
+		Name:        "font_bold",
+		Width:       5,
+		GridSize:    image.Pt(5, 5),
+		GridPadding: 1,
+		CharStart:   32,
+		Transparent: color.Transparent,
+		CharEnd:     127,
+	}
+	IFStupidSimpleItalic = ImageFont{
+		Name:        "font_italic",
+		Width:       5,
+		GridSize:    image.Pt(5, 5),
 		GridPadding: 1,
 		CharStart:   32,
 		Transparent: color.Transparent,

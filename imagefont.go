@@ -97,6 +97,9 @@ func (f *ImageFont) Load(r io.Reader) error {
 				x+f.GridSize.X+f.GridPadding*2,
 				y+f.GridSize.Y+f.GridPadding*2,
 			))
+			if c == nil {
+				return fmt.Errorf("error on char %d (%c): nil subimage", i, byte(i)+f.CharStart)
+			}
 			f.Chars[i] = c
 			i++
 		}

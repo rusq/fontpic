@@ -13,7 +13,7 @@ const (
 )
 
 var (
-	Keyrus8x8 = &basicfont.Face{
+	Face8x8 = &basicfont.Face{
 		Advance: 8,
 		Width:   7,
 		Height:  8,
@@ -21,7 +21,7 @@ var (
 		Descent: 1,
 		Left:    0,
 		Mask: &image.Alpha{
-			Pix:    bytes2pixels(kr8x8),
+			Pix:    bytes2pixels(fntKr8x8),
 			Stride: krStride,
 			Rect:   image.Rectangle{Max: image.Point{8, 255 * 8}},
 		},
@@ -31,7 +31,7 @@ var (
 		},
 	}
 
-	Keyrus8x14 = &basicfont.Face{
+	Face8x14 = &basicfont.Face{
 		Advance: 8,
 		Width:   7,
 		Height:  14,
@@ -39,7 +39,7 @@ var (
 		Descent: 2,
 		Left:    0,
 		Mask: &image.Alpha{
-			Pix:    bytes2pixels(kr8x14),
+			Pix:    bytes2pixels(fntKr8x14),
 			Stride: krStride,
 			Rect:   image.Rectangle{Max: image.Point{8, 255 * 14}},
 		},
@@ -49,7 +49,7 @@ var (
 		},
 	}
 
-	Keyrus8x16 = &basicfont.Face{
+	Face8x16 = &basicfont.Face{
 		Advance: 8,
 		Width:   7,
 		Height:  16,
@@ -57,7 +57,7 @@ var (
 		Descent: 2,
 		Left:    0,
 		Mask: &image.Alpha{
-			Pix:    bytes2pixels(kr8x16),
+			Pix:    bytes2pixels(fntKr8x16),
 			Stride: krStride,
 			Rect:   image.Rectangle{Max: image.Point{8, 255 * 16}},
 		},
@@ -67,7 +67,7 @@ var (
 		},
 	}
 
-	Microfont = &basicfont.Face{
+	Face4x4 = &basicfont.Face{
 		Advance: 5,
 		Width:   8,
 		Height:  5,
@@ -75,14 +75,14 @@ var (
 		Descent: 1,
 		Left:    -4,
 		Mask: &image.Alpha{
-			Pix:    bytes2pixels(microfont[0x20*5:]),
+			Pix:    bytes2pixels(fntMicrofont[0x20*5:]),
 			Stride: 8,
 			Rect:   image.Rectangle{Max: image.Point{8, 96 * 8}},
 		},
 		Ranges: basicfont.Face7x13.Ranges,
 	}
 
-	MicrofontBold = &basicfont.Face{
+	Face4x4Bold = &basicfont.Face{
 		Advance: 5,
 		Width:   8,
 		Height:  5,
@@ -90,14 +90,14 @@ var (
 		Descent: 1,
 		Left:    -4,
 		Mask: &image.Alpha{
-			Pix:    bytes2pixels(microfontBold[0x20*5:]),
+			Pix:    bytes2pixels(fntMicrofontBold[0x20*5:]),
 			Stride: 8,
 			Rect:   image.Rectangle{Max: image.Point{8, 96 * 8}},
 		},
 		Ranges: basicfont.Face7x13.Ranges,
 	}
 
-	MicrofontItalic = &basicfont.Face{
+	Face4x4Italic = &basicfont.Face{
 		Advance: 5,
 		Width:   8,
 		Height:  5,
@@ -105,14 +105,14 @@ var (
 		Descent: 1,
 		Left:    -4,
 		Mask: &image.Alpha{
-			Pix:    bytes2pixels(microfontItalic[0x20*5:]),
+			Pix:    bytes2pixels(fntMicrofontItalic[0x20*5:]),
 			Stride: 8,
 			Rect:   image.Rectangle{Max: image.Point{8, 96 * 8}},
 		},
 		Ranges: basicfont.Face7x13.Ranges,
 	}
 
-	Milifont = &basicfont.Face{
+	Face4x5 = &basicfont.Face{
 		Advance: 4,
 		Width:   8,
 		Height:  6,
@@ -120,7 +120,52 @@ var (
 		Descent: 1,
 		Left:    -4,
 		Mask: &image.Alpha{
-			Pix:    bytes2pixels(milifont[0x20*6:]),
+			Pix:    bytes2pixels(fntMilifont[0x20*6:]),
+			Stride: 8,
+			Rect:   image.Rectangle{Max: image.Point{8, 96 * 8}},
+		},
+		Ranges: basicfont.Face7x13.Ranges,
+	}
+
+	Face6x5 = &basicfont.Face{
+		Advance: 6,
+		Width:   8,
+		Height:  6,
+		Ascent:  5,
+		Descent: 1,
+		Left:    -4,
+		Mask: &image.Alpha{
+			Pix:    bytes2pixels(fntStupidsimplefont[0x20*6:]),
+			Stride: 8,
+			Rect:   image.Rectangle{Max: image.Point{8, 96 * 8}},
+		},
+		Ranges: basicfont.Face7x13.Ranges,
+	}
+
+	Face6x5Bold = &basicfont.Face{
+		Advance: 6,
+		Width:   8,
+		Height:  6,
+		Ascent:  5,
+		Descent: 1,
+		Left:    -4,
+		Mask: &image.Alpha{
+			Pix:    bytes2pixels(fntStupidsimplefontBold[0x20*6:]),
+			Stride: 8,
+			Rect:   image.Rectangle{Max: image.Point{8, 96 * 8}},
+		},
+		Ranges: basicfont.Face7x13.Ranges,
+	}
+
+	Face6x5Italic = &basicfont.Face{
+		Advance: 6,
+		Width:   8,
+		Height:  6,
+		Ascent:  5,
+		Descent: 1,
+		Left:    -4,
+		Mask: &image.Alpha{
+			Pix:    bytes2pixels(fntStupidsimplefontItalic[0x20*6:]),
 			Stride: 8,
 			Rect:   image.Rectangle{Max: image.Point{8, 96 * 8}},
 		},

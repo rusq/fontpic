@@ -18,13 +18,14 @@ import (
 
 var fonts = []*basicfont.Face{
 	basicfont.Face7x13,
-	fontpic.Keyrus8x16,
-	fontpic.Keyrus8x14,
-	fontpic.Keyrus8x8,
-	fontpic.Microfont,
-	fontpic.MicrofontBold,
-	fontpic.MicrofontItalic,
-	fontpic.Milifont,
+	fontpic.Face8x16,
+	fontpic.Face8x14,
+	fontpic.Face8x8,
+	fontpic.Face4x4,
+	fontpic.Face4x4Bold,
+	fontpic.Face4x4Italic,
+	fontpic.Face4x5,
+	fontpic.Face6x5,
 }
 
 func main() {

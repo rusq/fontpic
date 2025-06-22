@@ -27,26 +27,32 @@ var (
 	// Embedded fonts are taken from KeyRus by Dmitry Gurtyak. Charset: 866
 	//
 	//go:embed fnt/08x08.fnt
-	kr8x8 []byte
+	fntKr8x8 []byte
 	//go:embed fnt/08x14.fnt
-	kr8x14 []byte
+	fntKr8x14 []byte
 	//go:embed fnt/08x16.fnt
-	kr8x16 []byte
+	fntKr8x16 []byte
 	//go:embed fnt/microfont.fnt
-	microfont []byte
+	fntMicrofont []byte
 	//go:embed fnt/microfont_bold.fnt
-	microfontBold []byte
+	fntMicrofontBold []byte
 	//go:embed fnt/microfont_italic.fnt
-	microfontItalic []byte
+	fntMicrofontItalic []byte
 	//go:embed fnt/milifont.fnt
-	milifont []byte
+	fntMilifont []byte
+	//go:embed fnt/font.fnt
+	fntStupidsimplefont []byte
+	//go:embed fnt/font_bold.fnt
+	fntStupidsimplefontBold []byte
+	//go:embed fnt/font_italic.fnt
+	fntStupidsimplefontItalic []byte
 )
 
 var (
 	// FontDefault is the default font.
-	Fnt8x8     = Must(ToFntCharset(kr8x8, "866"))
-	Fnt8x14    = Must(ToFntCharset(kr8x14, "866"))
-	Fnt8x16    = Must(ToFntCharset(kr8x16, "866"))
+	Fnt8x8     = Must(ToFntCharset(fntKr8x8, "866"))
+	Fnt8x14    = Must(ToFntCharset(fntKr8x14, "866"))
+	Fnt8x16    = Must(ToFntCharset(fntKr8x16, "866"))
 	FntDefault = Fnt8x16
 )
 
