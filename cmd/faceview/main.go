@@ -22,6 +22,7 @@ var fonts = []*basicfont.Face{
 	fontpic.Keyrus8x14,
 	fontpic.Keyrus8x8,
 	fontpic.Microfont,
+	fontpic.Milifont,
 }
 
 func main() {

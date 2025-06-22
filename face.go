@@ -81,6 +81,21 @@ var (
 		},
 		Ranges: basicfont.Face7x13.Ranges,
 	}
+
+	Milifont = &basicfont.Face{
+		Advance: 4,
+		Width:   8,
+		Height:  6,
+		Ascent:  5,
+		Descent: 1,
+		Left:    -4,
+		Mask: &image.Alpha{
+			Pix:    bytes2pixels(milifont[0x20*6:]),
+			Stride: 8,
+			Rect:   image.Rectangle{Max: image.Point{8, 96 * 8}},
+		},
+		Ranges: basicfont.Face7x13.Ranges,
+	}
 )
 
 const bitsPerByte = 8 // defined as constant to easily update, when this changes

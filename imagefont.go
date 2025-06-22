@@ -26,37 +26,90 @@ type ImageFont struct {
 	Chars       []image.Image
 }
 
+func nonEmptyAlpha(img image.Image) bool {
+	b := img.Bounds()
+	for y := b.Min.Y; y < b.Max.Y; y++ {
+		for x := b.Min.X; x < b.Max.X; x++ {
+			_, _, _, a := img.At(x, y).RGBA()
+			if a < 255 {
+				return true
+			}
+
+		}
+	}
+	return false
+}
+
+func convertRGBA(img image.Image) *image.Alpha {
+	ret := image.NewAlpha(img.Bounds())
+	// test if image has at least one transparent pixel
+	if nonEmptyAlpha(img) {
+		// copy image over
+		draw.Draw(ret, ret.Bounds(), img, image.Point{}, draw.Src)
+		return ret
+	}
+	if gray, ok := img.(*image.Gray); ok {
+		ret.Pix = gray.Pix
+		if ret.Pix[0] == 255 {
+			// white background, black foreground, invert.
+			for i := range ret.Pix {
+				ret.Pix[i] = ^ret.Pix[i]
+			}
+		}
+		return ret
+	}
+	// slow case, determine foreground color
+	b := img.Bounds()
+	bg := img.At(b.Min.X, b.Min.Y)
+	// everything that is not background color is foreground.
+	alphaColor(ret, img, bg)
+	return ret
+}
+
+func alphaColor(dst *image.Alpha, img image.Image, bg color.Color) {
+	b := img.Bounds()
+	for y := b.Min.Y; y < b.Max.Y; y++ {
+		for x := b.Min.X; x < b.Max.X; x++ {
+			if !colEq(img.At(x, y), bg) {
+				dst.Set(x, y, color.White)
+			}
+		}
+	}
+
+}
+
 // Load the font.
-func (f *ImageFont) load(r io.Reader) error {
+func (f *ImageFont) Load(r io.Reader) error {
 	img, err := png.Decode(r)
 	if err != nil {
 		return err
 	}
-	mf := img.(*image.NRGBA)
+	mf := convertRGBA(img)
+	// mf := img.(*image.NRGBA)
 	f.Image = mf
-	f.Chars = make([]image.Image, MicroFont.CharEnd-MicroFont.CharStart+1)
+	f.Chars = make([]image.Image, f.CharEnd-f.CharStart+1)
 	i := 0
-	for y := 0; y < mf.Bounds().Dy(); y += MicroFont.GridSize.Y + MicroFont.GridPadding*2 {
-		for x := 0; x < mf.Bounds().Dx(); x += MicroFont.GridSize.X + MicroFont.GridPadding*2 {
+	for y := 0; y < mf.Bounds().Dy(); y += f.GridSize.Y + f.GridPadding*2 {
+		for x := 0; x < mf.Bounds().Dx(); x += f.GridSize.X + f.GridPadding*2 {
 			c := mf.SubImage(image.Rect(
 				x,
 				y,
-				x+MicroFont.GridSize.X+MicroFont.GridPadding*2,
-				y+MicroFont.GridSize.Y+MicroFont.GridPadding*2,
+				x+f.GridSize.X+f.GridPadding*2,
+				y+f.GridSize.Y+f.GridPadding*2,
 			))
-			MicroFont.Chars[i] = c
+			f.Chars[i] = c
 			i++
 		}
 	}
 	return nil
 }
 
-func charOffset(c byte) int {
-	return int(c - MicroFont.CharStart)
+func (f *ImageFont) charOffset(c byte) int {
+	return int(c - f.CharStart)
 }
 
 func (f *ImageFont) Char(c byte) image.Image {
-	return f.Chars[charOffset(c)]
+	return f.Chars[f.charOffset(c)]
 }
 
 func (f *ImageFont) DrawChar(dst draw.Image, c byte, at image.Point, fg, bg color.Color) error {

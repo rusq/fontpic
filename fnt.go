@@ -34,6 +34,8 @@ var (
 	kr8x16 []byte
 	//go:embed fnt/microfont.fnt
 	microfont []byte
+	//go:embed fnt/milifont.fnt
+	milifont []byte
 )
 
 var (
