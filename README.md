@@ -37,6 +37,7 @@ BSD 3-clause.  See [LICENSE](/LICENSE).
 Included fonts are freeware (c) Dmitry Gurtyak.
 
 - fnt/microfnt.fnt -  GPL2+ font by mibi88 (generated from [source][4])
+- Robotron Font - (c) Nikita Zimin, https://github.com/nzeemin
 
 
 [1]: https://en.wikipedia.org/wiki/KeyRus
