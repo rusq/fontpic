@@ -26,6 +26,7 @@ var fonts = []*basicfont.Face{
 	fontpic.Face4x4Italic,
 	fontpic.Face4x5,
 	fontpic.Face6x5,
+	fontpic.FaceRobotron,
 }
 
 func main() {

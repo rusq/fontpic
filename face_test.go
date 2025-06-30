@@ -28,3 +28,29 @@ func Test_bits2byte(t *testing.T) {
 		})
 	}
 }
+
+func Test_uint16ToUint8(t *testing.T) {
+	type args struct {
+		data []uint16
+	}
+	tests := []struct {
+		name string
+		args args
+		want []byte
+	}{
+		{
+			name: "converts 16-bit slice to 8-bit big-endian representation",
+			args: args{
+				[]uint16{0x0123, 0x4567, 0x89AB, 0xCDEF},
+			},
+			want: []byte{0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := uint16ToUint8(tt.args.data); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("uint16ToUint8() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

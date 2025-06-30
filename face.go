@@ -2,6 +2,7 @@ package fontpic
 
 import (
 	"image"
+	"math/bits"
 
 	"golang.org/x/image/font/basicfont"
 )
@@ -131,6 +132,24 @@ var (
 		},
 		Ranges: basicfont.Face7x13.Ranges,
 	}
+
+	FaceRobotron = &basicfont.Face{
+		Advance: 10,
+		Width:   9,
+		Height:  9,
+		Ascent:  7,
+		Descent: 2,
+		Left:    7,
+		Mask: &image.Alpha{
+			Pix:    Bytes2pixels(uint16ToUint8Rev(robotronFnt)),
+			Stride: krStride * 2,
+			Rect:   image.Rectangle{Max: image.Point{16, 173 * 9}},
+		},
+		Ranges: []basicfont.Range{
+			{Low: 32, High: 204, Offset: 0},
+			{Low: '\ufffd', High: '\ufffe', Offset: 1},
+		},
+	}
 )
 
 const bitsPerByte = 8 // defined as constant to easily update, when this changes
@@ -190,5 +209,25 @@ func FntToFace(data []byte, width, height int) *basicfont.Face {
 			{Low: '\ufffd', High: '\ufffe', Offset: 1},
 		},
 	}
+}
 
+// For example, 0xAABB turns into 0xAA, 0xBB (big-endian).
+func uint16ToUint8(data []uint16) []byte {
+	var ret = make([]byte, len(data)*2)
+	for i := range data {
+		ret[i<<1] = uint8(data[i] >> 8)
+		ret[i<<1+1] = uint8(data[i] & 0xff)
+	}
+	return ret
+}
+
+// Reverses the bits in addition to breaking by bytes.
+func uint16ToUint8Rev(data []uint16) []byte {
+	var ret = make([]byte, len(data)*2)
+	for i := range data {
+		x := bits.Reverse16(data[i])
+		ret[i<<1] = uint8(x >> 8)
+		ret[i<<1+1] = uint8(x & 0xff)
+	}
+	return ret
 }
