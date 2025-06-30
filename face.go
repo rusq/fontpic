@@ -136,14 +136,14 @@ var (
 	FaceRobotron = &basicfont.Face{
 		Advance: 10,
 		Width:   9,
-		Height:  9,
-		Ascent:  7,
-		Descent: 2,
+		Height:  18,
+		Ascent:  14,
+		Descent: 4,
 		Left:    7,
 		Mask: &image.Alpha{
-			Pix:    Bytes2pixels(uint16ToUint8Rev(robotronFnt)),
+			Pix:    Bytes2pixels(uint16ToUint8Rev(everySecond(robotronFnt))),
 			Stride: krStride * 2,
-			Rect:   image.Rectangle{Max: image.Point{16, 173 * 9}},
+			Rect:   image.Rectangle{Max: image.Point{16, 173 * 18}},
 		},
 		Ranges: []basicfont.Range{
 			{Low: 32, High: 204, Offset: 0},
@@ -221,13 +221,25 @@ func uint16ToUint8(data []uint16) []byte {
 	return ret
 }
 
-// Reverses the bits in addition to breaking by bytes.
+// Reverses the bits in addition to breaking 16-bit words into 8-bit bytes.
 func uint16ToUint8Rev(data []uint16) []byte {
 	var ret = make([]byte, len(data)*2)
 	for i := range data {
 		x := bits.Reverse16(data[i])
 		ret[i<<1] = uint8(x >> 8)
 		ret[i<<1+1] = uint8(x & 0xff)
+	}
+	return ret
+}
+
+// injectblanks every second row with a blank row, so that the
+// resulting image has the correct height.  This is used for the Robotron
+// font.
+func everySecond[S []E, E ~int8 | ~int16 | ~uint8 | ~uint16](data S) S {
+	var ret = make(S, len(data)*2)
+	for i := range data {
+		ret[i<<1] = data[i]
+		ret[i<<1+1] = 0
 	}
 	return ret
 }

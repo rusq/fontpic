@@ -54,3 +54,55 @@ func Test_uint16ToUint8(t *testing.T) {
 		})
 	}
 }
+
+func Test_uint16ToUint8Rev(t *testing.T) {
+	type args struct {
+		data []uint16
+	}
+	tests := []struct {
+		name string
+		args args
+		want []byte
+	}{
+		{
+			name: "reverses bits in each word",
+			args: args{
+				[]uint16{0b0000_0000_0000_0001, 0b0011_0111_1101_0011},
+			},
+			want: []byte{0b1000_0000, 0b0000_0000, 0b1100_1011, 0b1110_1100},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := uint16ToUint8Rev(tt.args.data); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("uint16ToUint8Rev() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_everySecond(t *testing.T) {
+	type args struct {
+		data []uint8
+	}
+	tests := []struct {
+		name string
+		args args
+		want []uint8
+	}{
+		{
+			name: "inserts zero every second element",
+			args: args{
+				data: []uint8{1, 2, 3, 4},
+			},
+			want: []uint8{1, 0, 2, 0, 3, 0, 4, 0},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := everySecond(tt.args.data); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("everySecond() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
