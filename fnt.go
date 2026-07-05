@@ -26,11 +26,11 @@ type FNT struct {
 var (
 	// Embedded fonts are taken from KeyRus by Dmitry Gurtyak. Charset: 866
 	//
-	//go:embed fnt/08x08.fnt
+	//go:embed fnt/08X08.FNT
 	fntKr8x8 []byte
-	//go:embed fnt/08x14.fnt
+	//go:embed fnt/08X14.FNT
 	fntKr8x14 []byte
-	//go:embed fnt/08x16.fnt
+	//go:embed fnt/08X16.FNT
 	fntKr8x16 []byte
 	//go:embed fnt/microfont.fnt
 	fntMicrofont []byte
